@@ -1,11 +1,10 @@
 const errorJson = require('../services/errorResponse');
 
 class ErrorsClass extends Error {
-    constructor({message, code = 500, err = null}) {
+    constructor({message, code = 500, name}) {
         super(message);
-        this.name = this.constructor.name;
-        this.code = code,
-        this.err = err
+        this.name = name || this.constructor.name;
+        this.code = code
     }
 
     static error404 (req, res, next) {

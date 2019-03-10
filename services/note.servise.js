@@ -10,7 +10,7 @@ module.exports = {
                 duration: data.duration,
                 title: data.title,
                 userId: data.userId,
-                dayOfWeek: data.day
+                dayOfWeek: data.dayOfWeek
             };
             const note = await NoteModel.create(fields);
             return note;
@@ -23,12 +23,9 @@ module.exports = {
         }
     },
 
-
-
-
-    getAll: async() => {
+    getAll: async(userId) => {
         try {
-            let notes = await NoteModel.find();
+            let notes = await NoteModel.find({userId: userId});
             return notes;
         } catch(err) {
             throw new ErrorsClass({
@@ -38,9 +35,9 @@ module.exports = {
         }
     },
 
-    getAllByParams: async(userId, dayId) => {
+    getOneDay: async(userId, day) => {
         try {
-            let notes = await NoteModel.find({dayOfWeek: dayId, userId: userId});
+            let notes = await NoteModel.find({dayOfWeek: day, userId: userId});
             if(!notes) {
                 throw new ErrorsClass({
                     message: 'note not found',
@@ -56,50 +53,50 @@ module.exports = {
         }
     },
 
-
-
-
-
-
-
-
-
-
-
-
-    getOne: async(id) => {
+    updateOne: async(noteId, userId, updateObj) => {
         try {
-            let note = await NoteModel.findById(id);
-            if(!note) {
-                throw new ErrorsClass({
-                    message: 'note not found',
-                    code: 404,
-                })
-            }
+            let note = await NoteModel.findOneAndUpdate({_id: noteId, userId: userId}, {$set: updateObj}, {new: true});
             return note;
         } catch(err) {
             throw new ErrorsClass({
                 message: err.message,
                 code: err.code,
+                name: err.name
             })
         }
     },
 
-    updateOne: async(id, updObj) => {
+
+    deleteOne: async(noteId, userId) => {
         try {
-            let note = await NoteModel.findByIdAndUpdate(id, {$set: updObj}, {new: true});
+            let note = await NoteModel.findOneAndDelete({_id: noteId, userId: userId});
             return note;
         } catch(err) {
-            console.log('err serv', err);
-        }
-    },
-    deleteOne: async(id) => {
-        try {
-            let note = await NoteModel.findByIdAndDelete(id);
-            return note;
-        } catch(err) {
-            console.log('err serv', err);
+            throw new ErrorsClass({
+                message: err.message,
+                code: err.code,
+                name: err.name
+            })
         }
     }
+
+
+    // getOne: async(id) => {
+    //     try {
+    //         let note = await NoteModel.findById(id);
+    //         if(!note) {
+    //             throw new ErrorsClass({
+    //                 message: 'note not found',
+    //                 code: 404,
+    //             })
+    //         }
+    //         return note;
+    //     } catch(err) {
+    //         throw new ErrorsClass({
+    //             message: err.message,
+    //             code: err.code,
+    //         })
+    //     }
+    // },
 
 }

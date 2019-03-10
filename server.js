@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt');
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const notes = require('./routes/note.route');
@@ -43,7 +45,8 @@ app.use((req, res, next) => {
     err.code = 404;
     err.message = 'Page not found';
     errorJson(err, req, res, next);       
-})
+});
+//--------------------------------------
 
 app.listen(port, () => console.log('...listening port', port));         
 

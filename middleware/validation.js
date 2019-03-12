@@ -6,22 +6,14 @@ const {body, validationResult} = require('express-validator/check');
 module.exports = {
     varifyToken: async (req, res, next) => {
         try {
-            console.log('here');
-            
             const token = req.headers['x-access-token'];
-            console.log(token);
-            
-            
+
             if (!token) {
                 throw new Error('no verifying token');
             }
 
             const decoded = await jwtService.verify(token);
-            
-            // if(decoded._id !== req.params.userId) {
-            //     throw new Error('error token validation');
-            // }
-            
+
             req.decodedToken = decoded;
             return next();
 

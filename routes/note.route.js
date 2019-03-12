@@ -9,17 +9,7 @@ router.use(validator.varifyToken);
 router.post('/', validator.noteBody(), validator.result, noteController.create);
 router.get('/', noteController.getAll);
 router.get('/days/:day', noteController.getOneDay);
-
 router.put('/:id', noteController.updateOne);
-
-
-
-//router.get('/:id', noteController.getOne);
-
 router.delete('/:id', noteController.deleteOne);
-
-
-
-
 
 module.exports = router;

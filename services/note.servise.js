@@ -1,5 +1,4 @@
 const NoteModel = require('../models/note.model');
-const errorJson = require('./errorResponse');
 const ErrorsClass = require('../libs/handleErrors');
 
 module.exports = {
@@ -79,24 +78,4 @@ module.exports = {
             })
         }
     }
-
-
-    // getOne: async(id) => {
-    //     try {
-    //         let note = await NoteModel.findById(id);
-    //         if(!note) {
-    //             throw new ErrorsClass({
-    //                 message: 'note not found',
-    //                 code: 404,
-    //             })
-    //         }
-    //         return note;
-    //     } catch(err) {
-    //         throw new ErrorsClass({
-    //             message: err.message,
-    //             code: err.code,
-    //         })
-    //     }
-    // },
-
 }

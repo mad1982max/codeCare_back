@@ -2,8 +2,6 @@ const noteService = require('../services/note.servise');
 const answerJson = require('../services/response');
 const errorJson = require('../services/errorResponse');
 
-//exports.test = (req, res, next) => res.send({test: 'ok'});
-
 module.exports = {
     create: async(req, res, next) => {
         try {
@@ -25,8 +23,7 @@ module.exports = {
         try {
             const userId = req.decodedToken._id;
             const day = req.params.day;
-            console.log(userId, day);
-            
+
             const notes = await noteService.getOneDay(userId, day);
             return answerJson({
                 res,
@@ -41,8 +38,7 @@ module.exports = {
 
     getAll: async(req, res, next) => {
         try {
-            console.log(req.decodedToken);
-            
+
             const userId = req.decodedToken._id;
             const notes = await noteService.getAll(userId);
             return answerJson({
@@ -55,27 +51,7 @@ module.exports = {
             errorJson(err, req, res);
         }
     },
-
-
-
-
-
-
-
-    // getOne: async(req, res, next) => {
-    //     try {
-    //         let id = req.params.id;
-    //         const note = await noteService.getOne(id);
-    //         return answerJson({
-    //             res,
-    //             data: note,
-    //             msg: 'get one note'
-    //         });
-    //     } catch(err) {
-    //         //err.code = 500;
-    //         errorJson(err, req, res);
-    //     }
-    // },
+  
     updateOne: async(req, res, next) => {
         try {
             let noteId = req.params.id;

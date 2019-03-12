@@ -1,15 +1,15 @@
 'use strict';
+
+require('dotenv').config();
 const bcrypt = require('bcrypt');
-//const genSalt = require('bluebird').promisify(bcrypt.genSalt, {context: bcrypt});
 const HandleError = require('../libs/handleErrors');
-const salted = 10;
 
 module.exports = {
 	createHash: async(psw) => {
 		try {
 			console.log('psw', psw);
 			
-			const salt = await bcrypt.genSalt(salted);
+			const salt = await bcrypt.genSalt(process.env.SALT);
 			const hash = await bcrypt.hash(psw, salt);
 			return hash;
 			

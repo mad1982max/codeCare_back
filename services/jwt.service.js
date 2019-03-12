@@ -1,16 +1,12 @@
 const jwt = require('jsonwebtoken');
 const CustomError = require('../libs/handleErrors');
-
-let secret = 'my secret';
-let exp_token = '1d';
-let exp_refreshToken = '1w';
-
+require('dotenv').config();
 
 module.exports = {
     sign: async(payload) => {
         try {
-            const token = await jwt.sign(payload, secret, {expiresIn: exp_token});
-            const refreshToken = await jwt.sign(payload, secret, {expiresIn: exp_refreshToken});
+            const token = await jwt.sign(payload, process.env.SECRET, {expiresIn: process.env.EXP_TOKEN});
+            const refreshToken = await jwt.sign(payload, process.env.SECRET, {expiresIn: process.env.EXP_REFRESH_TOKEN});
             return {token, refreshToken};
         } catch(err) {
             throw new CustomError({
@@ -22,8 +18,7 @@ module.exports = {
 
     verify: async(token) => {
         try {
-
-            const decoded = await jwt.verify(token, secret);
+            const decoded = await jwt.verify(token, process.env.SECRET);
             return decoded;
         } catch(err) {
             throw new CustomError({
